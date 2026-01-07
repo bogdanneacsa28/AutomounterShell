@@ -46,15 +46,3 @@ while [ "$input" != "exit" -a "$input" != "bye" ]; do
         eval $input
         echo -n "$x"
     fi
-=======
-
-x="amsh> "
-echo -n "$x"
-read input
-while [ "$input" != "exit" -a "$input" != "bye" ]; do
-	eval "$input"
-	
-	echo -n "$x"
->>>>>>> f811647 (Afiseaza prompt si executa comenzi externe (programul se incheie la introducerea mesajului 'exit' sau 'bye)
-	read input
-done
