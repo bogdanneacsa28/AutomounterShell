@@ -1,5 +1,4 @@
-#!/bin/bash
-<<<<<<< HEAD
+ #!/bin/bash
 echo -e "###############################################################################
 #      _    __  __ ____  _   _ 
 #     / \  |  \/  / ___|| | | |
@@ -13,6 +12,7 @@ echo -e "#######################################################################
 
 # Script Logic Starts Below\n"
 path=$(pwd)
+initialPath=$path
 if [ "$(find Config.txt)" != "Config.txt" ]; then
     echo -e "amsh: First create a file named "Config.txt" then retry the script\n"
     exit 1
@@ -27,7 +27,7 @@ while [ "$input" != "exit" -a "$input" != "bye" ]; do
     if [ "$command" = "cd" ]; then
         eval $input
         path=$(pwd)
-        config=$(grep $path Config.txt)
+        config=$(grep -m 1 "$path" $initialPath/Config.txt)
         pathConfig=$(echo $config | cut -d " " -f 1)
         mountConfig=$(echo $config | cut -d " " -f 2)
         if [ "$pathConfig" = "$path" ]; then
@@ -36,7 +36,7 @@ while [ "$input" != "exit" -a "$input" != "bye" ]; do
             y=$(mountpoint $lastDir)
             verifyMountPoint=$(echo $y | cut -d " " -f 3)
             if [ "$verifyMountPoint" = "not" ]; then
-                mount $mountConfig $pathConfig
+                sudo mount $mountConfig $pathConfig
             fi
             cd $lastDir
         fi
@@ -46,3 +46,5 @@ while [ "$input" != "exit" -a "$input" != "bye" ]; do
         eval $input
         echo -n "$x"
     fi
+	read input
+done
