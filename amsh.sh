@@ -1,4 +1,4 @@
- #!/bin/bash
+#!/bin/bash
 echo -e "###############################################################################
 #      _    __  __ ____  _   _ 
 #     / \  |  \/  / ___|| | | |
@@ -37,6 +37,23 @@ while [ "$input" != "exit" -a "$input" != "bye" ]; do
             verifyMountPoint=$(echo $y | cut -d " " -f 3)
             if [ "$verifyMountPoint" = "not" ]; then
                 sudo mount $mountConfig $pathConfig
+                echo "amsh:$mountConfig mounted at $pathConfig for 5 minutes"
+                mountdir=${pathConfig##*/}
+                (
+               		TIME=4
+               		while true; do
+               			if [ -z "$(lsof $pathConfig)" ]; then	
+               				sleep $TIME
+               				if [ -z "$(lsof $pathConfig)" ]; then
+               					break
+               				fi
+               			else
+               				sleep $TIME
+               			fi
+               			
+               		done
+			sudo umount "$pathConfig" 2>/dev/null
+		)&
             fi
             cd $lastDir
         fi
