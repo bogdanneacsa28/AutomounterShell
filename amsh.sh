@@ -40,17 +40,12 @@ while [ "$input" != "exit" -a "$input" != "bye" ]; do
                 echo "amsh:$mountConfig mounted at $pathConfig for 5 minutes"
                 mountdir=${pathConfig##*/}
                 (
-               		TIME=4
+               		TIME=300
                		while true; do
-               			if [ -z "$(lsof $pathConfig)" ]; then	
-               				sleep $TIME
-               				if [ -z "$(lsof $pathConfig)" ]; then
-               					break
-               				fi
-               			else
-               				sleep $TIME
-               			fi
-               			
+		       		sleep $TIME
+		       		if [ -z "$(lsof $pathConfig)" ]; then
+		       			break
+		       		fi
                		done
 			sudo umount "$pathConfig" 2>/dev/null
 		)&
